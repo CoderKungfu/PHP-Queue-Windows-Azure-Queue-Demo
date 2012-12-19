@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/config.php';
+require_once dirname(__DIR__) . '/config.php';
 
 $options = array(
       'connection_string' => getenv('wa_blob_connection_string')
@@ -48,6 +48,7 @@ foreach($photos as $photo)
     </head>
     <body>
         <h2>Uploaded Photos</h2>
+        <a href="upload.php">Upload</a>
         <div>
             <div id="thumbs">
                 <ul>
@@ -62,14 +63,14 @@ foreach($photos as $photo)
                 <?php
                 $first = array_shift($sorted_photos);
                 ?>
-                <a href="/full.php?img=<?=$first['full']?>" target="_blank"><img src="<?=$first['500']?>" /></a>
+                <a href="full.php?img=<?=$first['full']?>" target="_blank"><img src="<?=$first['500']?>" /></a>
             </div>
         </div>
         <script type="text/javascript">
             $('#thumbs a').click(function(evt){
                 evt.preventDefault();
                 $('#fullimg img').attr('src', $(this).attr('href'));
-                $('#fullimg a').attr('href', '/full.php?img=' + $(this).data('fullImg'));
+                $('#fullimg a').attr('href', 'full.php?img=' + $(this).data('fullImg'));
             });
         </script>
     </body>
