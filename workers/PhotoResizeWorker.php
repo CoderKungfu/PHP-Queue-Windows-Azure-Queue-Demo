@@ -3,6 +3,7 @@ include_once __DIR__ . '/SimpleImage.php';
 class PhotoResizeWorker extends PHPQueue\Worker
 {
     private $upload_folder;
+    private $sizes = array(200, 500);
 
     public function __construct()
     {
@@ -21,17 +22,28 @@ class PhotoResizeWorker extends PHPQueue\Worker
         {
             throw new PHPQueue\Exception\Exception('Download file not found.');
         }
-        $upload_filename = $this->genThumbName($jobData['blobname']);
-        $resized_file_path = $this->upload_folder . $upload_filename;
 
-        $this->resizeImage($jobData['downloaded_file'], $resized_file_path);
+        $uploads = array();
+        $uploads[] = array(
+                'filename' => $jobData['blobname']
+              , 'file'     => $jobData['downloaded_file']
+            );
 
-        $jobData['upload_filename'] = $upload_filename;
-        $jobData['upload_file'] = $resized_file_path;
+        foreach($this->sizes as $constraint)
+        {
+            $upload_filename = $this->genThumbName($jobData['blobname'], $constraint);
+            $resized_file_path = $this->upload_folder . $upload_filename;
+            $this->resizeImage($jobData['downloaded_file'], $resized_file_path, $constraint);
+            $uploads[] = array(
+                      'filename' => $upload_filename
+                    , 'file'     => $resized_file_path
+                );
+        }
+        $jobData['uploads'] = $uploads;
         $this->result_data = $jobData;
     }
 
-    private function resizeImage($source_file, $resized_file)
+    private function resizeImage($source_file, $resized_file, $constraint=300)
     {
         $image = new \SimpleImage();
         $image->load($source_file);
@@ -39,20 +51,20 @@ class PhotoResizeWorker extends PHPQueue\Worker
         $h = $image->getHeight();
         if ($h > $w)
         {
-            $image->resizeToHeight(500);
+            $image->resizeToHeight($$constraint);
         }
         else
         {
-            $image->resizeToWidth(500);
+            $image->resizeToWidth($$constraint);
         }
         $image->save($resized_file);
     }
 
-    private function genThumbName($file_path)
+    private function genThumbName($file_path, $thumb_code='thumb')
     {
         $ext_pos = strrpos($file_path, '.');
         $blob_key = substr($file_path, 0, $ext_pos);
         $ext = substr($file_path, strrpos($file_path, '.'));;
-        return sprintf('%s_thumb%s', $blob_key, $ext);
+        return sprintf('%s_%s%s', $blob_key, $thumb_code, $ext);
     }
 }

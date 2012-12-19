@@ -21,13 +21,24 @@ class UploadCDNWorker extends PHPQueue\Worker
     {
         parent::runJob($jobObject);
         $jobData = $jobObject->data;
-        if (empty($jobData['upload_file']) || !is_file($jobData['upload_file']))
+        if (empty($jobData['uploads']))
         {
-            throw new PHPQueue\Exception\Exception('Result file not found.');
+            throw new PHPQueue\Exception\Exception('Result files not found.');
         }
-        self::$data_source->putFile($jobData['blobname'], $jobData['downloaded_file']);
-        self::$data_source->putFile($jobData['upload_filename'], $jobData['upload_file']);
-        $jobData['upload_successful'] = true;
+        $status = true;
+        foreach($jobData['uploads'] as $upload)
+        {
+            if (is_file($upload['file']))
+            {
+                self::$data_source->putFile($upload['filename'], $upload['file']);
+            }
+            else
+            {
+                $jobData['errors'][] = sprintf('Unable to upload %s', $upload['file']);
+                $status = false;
+            }
+        }
+        $jobData['success'] = $status;
         $this->result_data = $jobData;
     }
 }
