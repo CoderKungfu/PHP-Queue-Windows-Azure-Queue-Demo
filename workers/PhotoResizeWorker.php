@@ -23,7 +23,7 @@ class PhotoResizeWorker extends PHPQueue\Worker
         {
             throw new PHPQueue\Exception\Exception('Download file not found.');
         }
-        $upload_file = $this->upload_folder . $jobData['blobname'];
+        $upload_file = $this->upload_folder . $this->genThumbName($jobData['blobname']);
 
         $image = new \SimpleImage();
         $image->load($jobData['downloaded_file']);
@@ -41,5 +41,13 @@ class PhotoResizeWorker extends PHPQueue\Worker
 
         $jobData['upload_file'] = $upload_file;
         $this->result_data = $jobData;
+    }
+
+    private function genThumbName($file_path)
+    {
+        $ext_pos = strrpos($file_path, '.');
+        $blob_key = substr($file_path, 0, $ext_pos);
+        $ext = substr($file_path, strrpos($file_path, '.'));;
+        return sprintf('%s_thumb%s', $blob_key, $ext);
     }
 }
