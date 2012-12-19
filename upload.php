@@ -9,7 +9,7 @@ require_once __DIR__ . '/config.php';
         <?php
         if( isset($_POST['submit']) ):
             $payload = array(
-                  'filename' => $_FILES['userfile']['name']
+                  'filename' => $_FILES['uploaded_image']['name']
                 , 'file' => $_FILES['uploaded_image']['tmp_name']
             );
             try
