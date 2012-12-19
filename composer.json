@@ -1,7 +1,8 @@
 {
     "require": {
 	    "coderkungfu/php-queue": "0.1.x-dev",
-        "microsoft/windowsazure": "*"
+        "microsoft/windowsazure": "*",
+        "clio/clio": "@stable"
     },          
     "repositories": [
         {
