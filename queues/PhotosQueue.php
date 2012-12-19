@@ -19,7 +19,7 @@ class PhotosQueue extends PHPQueue\JobQueue
               'connection_string' => getenv('wa_blob_connection_string')
             , 'container'         => 'photosupload'
         );
-        $this->blobSource = \PHPQueue\Base::backendFactory('WindowsAzureServiceBlob', $options);
+        $this->blobSource = \PHPQueue\Base::backendFactory('WindowsAzureBlob', $options);
 
         $this->resultLog = \PHPQueue\Logger::createLogger(
                               'NoobLogger'
@@ -34,8 +34,8 @@ class PhotosQueue extends PHPQueue\JobQueue
         {
             throw new \PHPQueue\Exception\Exception('File not found.');
         }
-        $newJob['blobname'] = md5(sprintf('%s-%s'), $newJob['file'], time());
-        $this->blobSource->put($newJob['blobname'], $newJob['file']);
+        $newJob['blobname'] = $this->genBlobName($newJob['file']);
+        $this->blobSource->putFile($newJob['blobname'], $newJob['file']);
         unset($newJob['file']);
 
         $formatted_data = array('worker'=>$this->queueWorker, 'data'=>$newJob);
@@ -65,5 +65,12 @@ class PhotosQueue extends PHPQueue\JobQueue
     public function releaseJob($jobId = null)
     {
         $this->dataSource->release($jobId);
+    }
+
+    private function genBlobName($file_path)
+    {
+        $blob_key = md5( sprintf('%s-%s', $file_path, time()) );
+        $ext = substr($file_path, strrpos($file_path, '.'));
+        return sprintf('%s%s', $blob_key, $ext);
     }
 }

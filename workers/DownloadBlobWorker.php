@@ -11,7 +11,7 @@ class DownloadBlobWorker extends PHPQueue\Worker
               'connection_string' => getenv('wa_blob_connection_string')
             , 'container'         => 'photosupload'
         );
-        self::$data_source = \PHPQueue\Base::backendFactory('WindowsAzureServiceBlob', $options);
+        self::$data_source = \PHPQueue\Base::backendFactory('WindowsAzureBlob', $options);
         $this->download_folder = __DIR__ . '/downloads/';
     }
 
@@ -27,9 +27,8 @@ class DownloadBlobWorker extends PHPQueue\Worker
             throw new PHPQueue\Exception\Exception('Blob not found.');
         }
         $blobname = $jobData['blobname'];
-        $file = self::$data_source->fetch($blobname);
         $download_path = $this->download_folder . $blobname;
-        file_put_contents($download_path, $file['object']->getContentStream());
+        self::$data_source->fetchFile($blobname, $download_path);
         $jobData['downloaded_file'] = $download_path;
         $this->result_data = $jobData;
     }
