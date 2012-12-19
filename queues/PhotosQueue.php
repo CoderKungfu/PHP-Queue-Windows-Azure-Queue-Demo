@@ -54,6 +54,7 @@ class PhotosQueue extends PHPQueue\JobQueue
 
     public function updateJob($jobId = null, $resultData = null)
     {
+        $this->blobSource->clear($resultData['blobname']);
         $this->resultLog->addInfo('Result: ID='.$jobId, $resultData);
     }
 
