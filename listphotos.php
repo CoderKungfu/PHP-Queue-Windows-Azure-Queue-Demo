@@ -11,7 +11,7 @@ $photos = $data_source->listFiles();
 $sorted_photos = array();
 foreach($photos as $photo)
 {
-    $url = $photo->url;
+    $url = $photo['url'];
     if (strpos($url, '_') === false)
     {
         $code_name = substr($url, 0, strpos($url, '.'));
