@@ -8,8 +8,8 @@
 #
 
 #require_once '/absolute/path/to/php-queue/src/demo/config.php';
-require_once __DIR__ . '/config.php';
-$pid_file = __DIR__ . '/process.pid';
+require_once dirname(__DIR__) . '/config.php';
+$pid_file = dirname(__DIR__) . '/process.pid';
 if (empty($argv[1]))
 {
     Clio\Console::output("Unknown action.");
