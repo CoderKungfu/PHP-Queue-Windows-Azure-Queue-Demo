@@ -2,7 +2,6 @@
 class UploadCDNWorker extends PHPQueue\Worker
 {
     static private $data_source;
-    private $source_container = 'photosupload';
     private $destination_container = 'photoscdn';
 
     public function __construct()
@@ -26,7 +25,7 @@ class UploadCDNWorker extends PHPQueue\Worker
         {
             throw new PHPQueue\Exception\Exception('Result file not found.');
         }
-        self::$data_source->copy($this->source_container, $jobData['blobname'], $this->destination_container, $jobData['blobname']);
+        self::$data_source->putFile($jobData['blobname'], $jobData['downloaded_file']);
         self::$data_source->putFile($jobData['upload_filename'], $jobData['upload_file']);
         $jobData['upload_successful'] = true;
         $this->result_data = $jobData;
