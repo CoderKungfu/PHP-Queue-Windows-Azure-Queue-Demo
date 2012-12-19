@@ -31,11 +31,11 @@ class PhotoResizeWorker extends PHPQueue\Worker
         $h = $image->getHeight();
         if ($h > $w)
         {
-            $image->resizeToHeight(300);
+            $image->resizeToHeight(500);
         }
         else
         {
-            $image->resizeToWidth(300);
+            $image->resizeToWidth(500);
         }
         $image->save($upload_file);
 
