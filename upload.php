@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Image Upload</title>
@@ -26,9 +27,10 @@ require_once __DIR__ . '/config.php';
             <h2><?=$status?></h2>
             <p><a href="/upload.php">Upload Another</a></p>
         <?php else: ?>
+        <h2>PHP-Queue Photo Upload Demo</h2>
         <form action="upload.php" method="post" enctype="multipart/form-data">
             <input type="file" name="uploaded_image" />
-            <input type="submit" name="submit" value="Upload" />
+            <input type="submit" name="submit" value="Upload File" />
          </form>
         <?php endif; ?>
     </body>
