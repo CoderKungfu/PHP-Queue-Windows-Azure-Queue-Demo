@@ -2,13 +2,11 @@
 include_once __DIR__ . '/SimpleImage.php';
 class PhotoResizeWorker extends PHPQueue\Worker
 {
-    private $download_folder;
     private $upload_folder;
 
     public function __construct()
     {
         parent::__construct();
-        $this->download_folder = __DIR__ . '/downloads/';
         $this->upload_folder = __DIR__ . '/uploads/';
     }
 
