@@ -2,13 +2,15 @@
 class UploadCDNWorker extends PHPQueue\Worker
 {
     static private $data_source;
+    private $source_container = 'photosupload';
+    private $destination_container = 'photoscdn';
 
     public function __construct()
     {
         parent::__construct();
         $options = array(
               'connection_string' => getenv('wa_blob_connection_string')
-            , 'container'         => 'photoscdn'
+            , 'container'         => $this->destination_container
         );
         self::$data_source = \PHPQueue\Base::backendFactory('WindowsAzureBlob', $options);
     }
@@ -24,7 +26,8 @@ class UploadCDNWorker extends PHPQueue\Worker
         {
             throw new PHPQueue\Exception\Exception('Result file not found.');
         }
-        self::$data_source->putFile($jobData['blobname'], $jobData['upload_file']);
+        self::$data_source->copy($this->source_container, $jobData['blobname'], $this->destination_container, $jobData['blobname']);
+        self::$data_source->putFile($jobData['upload_filename'], $jobData['upload_file']);
         $jobData['upload_successful'] = true;
         $this->result_data = $jobData;
     }
