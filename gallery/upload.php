@@ -25,7 +25,7 @@ require_once dirname(__DIR__) . '/config.php';
             }
         ?>
             <h2><?=$status?></h2>
-            <p><a href="/upload.php">Upload Another</a></p>
+            <p><a href="upload.php">Upload Another</a></p>
         <?php else: ?>
         <h2>PHP-Queue Photo Upload Demo</h2>
         <form action="upload.php" method="post" enctype="multipart/form-data">
