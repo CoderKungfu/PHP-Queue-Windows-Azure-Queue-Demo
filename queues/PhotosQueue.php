@@ -34,7 +34,11 @@ class PhotosQueue extends PHPQueue\JobQueue
         {
             throw new \PHPQueue\Exception\Exception('File not found.');
         }
-        $newJob['blobname'] = $this->genBlobName($newJob['file']);
+        if (empty($newJob['filename']))
+        {
+            $newJob['filename'] = $newJob['file'];
+        }
+        $newJob['blobname'] = $this->genBlobName($newJob['filename']);
         $this->blobSource->putFile($newJob['blobname'], $newJob['file']);
         unset($newJob['file']);
 
