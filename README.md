@@ -115,8 +115,9 @@ _**Refer to the Windows Azure tutorials above to find out how to get these conne
 
 #### Running the Photo Worker Daemon
 
-1. Start a Windows Azure Virtual Machine (use the CentOS 6.2 linux distro). Login to your box.
-2. Create a new file `install.sh` and use these contents.
+1. Start a Windows Azure Virtual Machine (use the CentOS 6.2 linux distro).
+2. SSH into your VM.
+3. Create a new file `install.sh` and use these contents.
 
     ``` sh
     #!/bin/sh
@@ -128,15 +129,20 @@ _**Refer to the Windows Azure tutorials above to find out how to get these conne
     composer install
     ```
 
-2. Check-out the Git repository into your Linux box.
-3. Change to the `bin` directory.
-4. Start the daemon:
+4. Run the script to install the required software to run the daemon. The script would also checkout a copy of the sample code into your current folder.
+
+    ``` sh
+    $ sh install.sh
+    ```
+
+5. `cd` to the `bin` directory.
+6. Start the daemon:
 
     ``` sh
     $ php daemon.php start
     ```
 
-5. To stop the daemon:
+8. To stop the daemon:
 
     ``` sh
     $ php daemon.php stop
