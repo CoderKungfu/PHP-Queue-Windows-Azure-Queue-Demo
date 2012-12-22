@@ -48,7 +48,7 @@ foreach($photos as $photo)
     </head>
     <body>
         <h2>Uploaded Photos</h2>
-        <a href="upload.php">Upload</a>
+        <a href="upload.php" target="_blank">Upload</a>
         <div>
             <div id="thumbs">
                 <ul>
