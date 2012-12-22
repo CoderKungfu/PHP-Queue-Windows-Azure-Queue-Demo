@@ -2,7 +2,7 @@
 
 Demo app for Windows Azure Service Bus Queue backend.
 
-Part of my presentation at [The Singapore Xmas Azure Workshop](https://www.facebook.com/events/382258025194568/) on 20 Dec 2012.
+Sample code from my presentation at [The Singapore Xmas Azure Workshop](https://www.facebook.com/events/382258025194568/) on 20 Dec 2012. [Here are the presentation slides](https://speakerdeck.com/miccheng/php-queue-with-windows-azure).
 
 ##Setup Instructions
 
