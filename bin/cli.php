@@ -4,6 +4,10 @@
 // $ export queue_connection_string='Endpoint=https://<NameSpace>.servicebus.windows.net/;SharedSecretIssuer=<Issuer>;SharedSecretValue=<SharedSecret>'
 // $ php cli.php Noob add --data '{"boo":"bar","foo":"car"}'
 // $ php cli.php Noob work
+if (is_file(__DIR__ . '/env.php'))
+{
+    require_once __DIR__ . '/env.php';
+}
 require_once dirname(__DIR__) . '/config.php';
 
 $queue_name = $argv[1];
