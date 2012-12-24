@@ -12,18 +12,19 @@ Sample code from my presentation at [The Singapore Xmas Azure Workshop](https://
 2. Create a Windows Azure website ([tutorial here](http://www.windowsazure.com/en-us/develop/php/tutorials/website-w-mysql-and-git/)).
 3. Create a Windows Azure Service Bus Namespace ([tutorial here](http://www.windowsazure.com/en-us/develop/php/how-to-guides/service-bus-queues/#create-a-service-namespace)).
 4. Create a Windows Azure Blob Storage Account ([tutorial here](http://www.windowsazure.com/en-us/develop/php/how-to-guides/blob-service/#header-3)).
-5. Download the sample code.
+5. Create 2 new Containers: `photosupload` and `photoscdn`.
+6. Download the sample code.
 
     ``` sh
     $ git clone git://github.com/miccheng/PHP-Queue-Windows-Azure-Queue-Demo.git
     ```
-6. Download and install Composer
+7. Download and install Composer
 
     ``` sh
     $ curl -s "http://getcomposer.org/installer" | php
     ```
 
-7. Download the Windows Azure SDK & PHP-Queue via Composer.
+8. Download the Windows Azure SDK & PHP-Queue via Composer.
 
     ``` sh
     $ php composer.phar install
@@ -74,6 +75,19 @@ _**Refer to the Windows Azure tutorials above to find out how to get these conne
     export queue_connection_string='Endpoint=<EndpointURL>;SharedSecretIssuer=owner;SharedSecretValue=<SharedSecret>'
     export wa_blob_connection_string='DefaultEndpointsProtocol=https;AccountName=<YourNameSpace>;AccountKey=<AccountKey>'
     ```
+
+OR use the `env.php` file
+
+1. `cd` to `bin` folder.
+2. Copy `env.sample.php` to `env.php`.
+3. Edit that file and fill in your connection string info for your Windows Azure Service Bus Namespace and Windows Azure Blob Storage account.
+
+	``` php
+	<?php
+	# Rename this file to env.php and place in the same folder as cli.php and daemon.php
+	putenv("queue_connection_string='Endpoint=https://yournamespace.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=XXXXX'");
+	putenv("wa_blob_connection_string='DefaultEndpointsProtocol=https;AccountName=youraccount;AccountKey=XXXXXX'");
+	```
 
 ### Running the Sample Codes
 
